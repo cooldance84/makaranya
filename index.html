@@ -1,101 +1,107 @@
 <!doctype html>
-<html lang="en">
+<html lang="hu">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Makaranya — handcrafted macarons, baked in small batches and delivered with joy.">
-  <title>Makaranya — Little bites of joy</title>
+  <meta name="description" content="Makaranya — kézzel készített, különleges macaronok minden alkalomra.">
+  <title>Makaranya — Egy falat boldogság</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="announcement">Free delivery on boxes of 12 <span>✦</span> Baked fresh every morning</div>
+  <div class="announcement">Ingyenes kiszállítás 12 darabos doboztól <span>✦</span> Minden reggel frissen készítve</div>
   <header class="site-header">
-    <a class="logo" href="#top" aria-label="Makaranya home">
-      <span class="logo-mark"><i></i></span>
-      makaranya
-    </a>
-    <button class="menu-toggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span></button>
-    <nav aria-label="Main navigation">
-      <a href="#flavours">Flavours</a>
-      <a href="#story">Our story</a>
-      <a href="#gifting">Gifting</a>
+    <a class="logo" href="#top" aria-label="Makaranya főoldal"><span class="logo-mark"><i></i></span>makaranya</a>
+    <button class="menu-toggle" aria-label="Menü megnyitása" aria-expanded="false"><span></span><span></span></button>
+    <nav aria-label="Fő navigáció">
+      <a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Elérhetőség</a>
     </nav>
-    <a class="bag" href="#flavours">Order a box <span>0</span></a>
+    <a class="bag" href="#flavours">Dobozom <span>0</span></a>
   </header>
 
   <main id="top">
     <section class="hero">
       <div class="hero-copy reveal">
-        <p class="eyebrow">Handmade with a little magic</p>
-        <h1>Little bites<br>of <em>joy.</em></h1>
-        <p class="intro">Delicate shells, cloud-soft centres, and flavours made to turn an ordinary day into something worth celebrating.</p>
-        <a class="button" href="#flavours">Taste the collection <span>→</span></a>
-        <div class="note"><span>♡</span> Made by hand in small batches</div>
+        <p class="eyebrow">Kézzel készítve, egy csipet varázslattal</p>
+        <h1>Egy falat<br><em>boldogság.</em></h1>
+        <p class="intro">Roppanós héj, selymesen puha töltelék és felejthetetlen ízek — hogy a hétköznapokból is ünnep legyen.</p>
+        <a class="button" href="#flavours">Fedezd fel az ízeket <span>→</span></a>
+        <div class="note"><span>♡</span> Kis adagokban, szeretettel készítve</div>
       </div>
-      <div class="hero-art reveal" aria-label="An illustrated stack of colourful macarons" role="img">
-        <div class="orbit orbit-one"></div>
-        <div class="orbit orbit-two"></div>
+      <div class="hero-art reveal" aria-label="Színes macaronok illusztrációja" role="img">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
         <div class="sparkle s1">✦</div><div class="sparkle s2">✦</div><div class="sparkle s3">✦</div>
         <div class="mac-stack">
-          <div class="macaron peach"><b></b><i></i><b></b></div>
-          <div class="macaron lemon"><b></b><i></i><b></b></div>
-          <div class="macaron pistachio"><b></b><i></i><b></b></div>
-          <div class="macaron berry"><b></b><i></i><b></b></div>
+          <div class="macaron peach"><b></b><i></i><b></b></div><div class="macaron lemon"><b></b><i></i><b></b></div>
+          <div class="macaron pistachio"><b></b><i></i><b></b></div><div class="macaron berry"><b></b><i></i><b></b></div>
         </div>
-        <p class="hand-note">perfectly<br>imperfect <span>↗</span></p>
+        <p class="hand-note">tökéletesen<br>tökéletlen <span>↗</span></p>
       </div>
     </section>
 
-    <section class="marquee" aria-label="Our qualities">
-      <div>GLUTEN FREE <span>✿</span> NATURAL INGREDIENTS <span>✿</span> HANDCRAFTED <span>✿</span> GLUTEN FREE <span>✿</span> NATURAL INGREDIENTS</div>
-    </section>
+    <section class="marquee" aria-label="Értékeink"><div>GLUTÉNMENTES <span>✿</span> TERMÉSZETES ALAPANYAGOK <span>✿</span> KÉZZEL KÉSZÍTETT <span>✿</span> GLUTÉNMENTES <span>✿</span> TERMÉSZETES ALAPANYAGOK</div></section>
 
     <section class="flavours" id="flavours">
       <div class="section-heading reveal">
-        <div><p class="eyebrow">Meet the favourites</p><h2>A flavour for<br><em>every feeling.</em></h2></div>
-        <p>From bright and zesty to deep and decadent — find the one that speaks to you.</p>
+        <div><p class="eyebrow">A közönség kedvencei</p><h2>Minden hangulathoz<br><em>egy külön íz.</em></h2></div>
+        <p>A friss, gyümölcsös ízektől a mély, csokoládés élményekig — találd meg a kedvencedet.</p>
       </div>
       <div class="flavour-grid">
-        <article class="flavour-card rose reveal">
-          <div class="card-number">01</div><div class="mini-mac"><b></b><i></i><b></b></div>
-          <div><h3>Rose Raspberry</h3><p>Floral, tart &amp; dreamy</p></div><button aria-label="Add Rose Raspberry">+</button>
-        </article>
-        <article class="flavour-card green reveal">
-          <div class="card-number">02</div><div class="mini-mac"><b></b><i></i><b></b></div>
-          <div><h3>Salted Pistachio</h3><p>Nutty, creamy &amp; smooth</p></div><button aria-label="Add Salted Pistachio">+</button>
-        </article>
-        <article class="flavour-card yellow reveal">
-          <div class="card-number">03</div><div class="mini-mac"><b></b><i></i><b></b></div>
-          <div><h3>Lemon Meringue</h3><p>Sunny, soft &amp; zingy</p></div><button aria-label="Add Lemon Meringue">+</button>
-        </article>
-        <article class="flavour-card cocoa reveal">
-          <div class="card-number">04</div><div class="mini-mac"><b></b><i></i><b></b></div>
-          <div><h3>Dark Chocolate</h3><p>Rich, silky &amp; bold</p></div><button aria-label="Add Dark Chocolate">+</button>
-        </article>
+        <article class="flavour-card rose reveal"><div class="card-number">01</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Rózsa–málna</h3><p>Virágos, fanyar és álomszerű</p></div><button aria-label="Rózsa–málna hozzáadása">+</button></article>
+        <article class="flavour-card green reveal"><div class="card-number">02</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Sós pisztácia</h3><p>Diós, krémes és lágy</p></div><button aria-label="Sós pisztácia hozzáadása">+</button></article>
+        <article class="flavour-card yellow reveal"><div class="card-number">03</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Citromhab</h3><p>Napfényes, puha és frissítő</p></div><button aria-label="Citromhab hozzáadása">+</button></article>
+        <article class="flavour-card cocoa reveal"><div class="card-number">04</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Étcsokoládé</h3><p>Gazdag, selymes és karakteres</p></div><button aria-label="Étcsokoládé hozzáadása">+</button></article>
       </div>
     </section>
 
     <section class="story" id="story">
-      <div class="story-art reveal"><div class="big-mac"><b></b><i></i><b></b></div><span>Est. with love<br>in 2024</span></div>
-      <div class="story-copy reveal"><p class="eyebrow">Our sweet little story</p><h2>Made slowly.<br>Loved <em>instantly.</em></h2><p>We believe the smallest things can carry the most joy. Every Makaranya macaron is piped, filled, and finished by hand — no shortcuts, no strange ingredients, just a lot of care.</p><a href="#gifting">Come behind the scenes <span>→</span></a></div>
+      <div class="story-art reveal"><div class="big-mac"><b></b><i></i><b></b></div><span>Szeretettel<br>2024 óta</span></div>
+      <div class="story-copy reveal"><p class="eyebrow">A mi édes történetünk</p><h2>Lassan készül.<br>Azonnal <em>megszereted.</em></h2><p>Hiszünk abban, hogy a legkisebb dolgok adják a legnagyobb örömöt. Minden Makaranya macaront kézzel formázunk, töltünk és díszítünk — csak gondosan válogatott alapanyagokból.</p><a href="#gallery">Nézz be a kulisszák mögé <span>→</span></a></div>
+    </section>
+
+    <section class="gallery" id="gallery">
+      <div class="gallery-heading reveal"><p class="eyebrow">Pillanatok a műhelyből</p><h2>Színes, édes<br><em>mindennapok.</em></h2><p>Apró részletek, gondos kezek és rengeteg szín — így születnek nálunk a macaronok.</p></div>
+      <div class="gallery-grid">
+        <figure class="gallery-item gallery-tall reveal"><div class="gallery-scene stack-scene"><div class="scene-mac m1"></div><div class="scene-mac m2"></div><div class="scene-mac m3"></div><div class="scene-mac m4"></div></div><figcaption><span>01</span> A napi színpaletta</figcaption></figure>
+        <figure class="gallery-item reveal"><div class="gallery-scene box-scene"><div class="scene-box"><i></i><i></i><i></i><i></i><i></i><i></i></div></div><figcaption><span>02</span> Dobozba zárt öröm</figcaption></figure>
+        <figure class="gallery-item reveal"><div class="gallery-scene piping-scene"><div class="piping-bag"></div><div class="dollop d1"></div><div class="dollop d2"></div><div class="dollop d3"></div></div><figcaption><span>03</span> Minden darab kézzel készül</figcaption></figure>
+        <figure class="gallery-item gallery-wide reveal"><div class="gallery-scene celebration-scene"><div class="plate"><i></i><i></i><i></i><i></i><i></i></div><div class="confetti">✦　·　✿　·　✦</div></div><figcaption><span>04</span> Ünnepekre és csak úgy</figcaption></figure>
+      </div>
     </section>
 
     <section class="gifting" id="gifting">
-      <div class="gift-copy reveal"><p class="eyebrow">Good things come in boxes</p><h2>Send a little<br><em>sweetness.</em></h2><p>Build a box for birthdays, thank-yous, or just-because days. Add a handwritten note and we’ll take care of the rest.</p><a class="button dark" href="mailto:hello@makaranya.com">Build your gift box <span>→</span></a></div>
-      <div class="gift-box reveal" aria-label="Gift box of macarons"><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="bow">∞</div><span>MAKARANYA</span></div>
+      <div class="gift-copy reveal"><p class="eyebrow">A jó dolgok dobozban érkeznek</p><h2>Küldj egy kis<br><em>édességet.</em></h2><p>Állíts össze válogatást születésnapra, köszönetképpen vagy csak úgy. Kérj kézzel írt üzenetet, a többiről mi gondoskodunk.</p><a class="button dark" href="#contact">Ajándékdobozt kérek <span>→</span></a></div>
+      <div class="gift-box reveal" aria-label="Macaronos ajándékdoboz"><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="bow">∞</div><span>MAKARANYA</span></div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="contact-intro reveal"><p class="eyebrow">Találkozzunk vagy írj nekünk</p><h2>Édes terveid<br><em>vannak?</em></h2><p>Rendelés, egyedi válogatás vagy rendezvény? Meséld el, mire gondoltál, és hamarosan válaszolunk.</p>
+        <div class="contact-details">
+          <a href="tel:+36301234567"><small>Telefon</small><strong>+36 30 123 4567</strong></a>
+          <a href="mailto:hello@makaranya.hu"><small>E-mail</small><strong>hello@makaranya.hu</strong></a>
+          <div><small>Műhely</small><strong>Budapest, Édes utca 12.</strong></div>
+          <div><small>Nyitvatartás</small><strong>K–Szo: 10:00–18:00</strong></div>
+        </div>
+      </div>
+      <form class="contact-form reveal" id="contact-form">
+        <label>Név<input type="text" name="name" placeholder="Hogyan szólíthatunk?" required></label>
+        <label>E-mail<input type="email" name="email" placeholder="nev@email.hu" required></label>
+        <label>Miben segíthetünk?<select name="subject"><option>Macaron rendelés</option><option>Ajándékdoboz</option><option>Rendezvény</option><option>Egyéb kérdés</option></select></label>
+        <label>Üzenet<textarea name="message" rows="4" placeholder="Írd meg az elképzelésed..." required></textarea></label>
+        <button class="button dark" type="submit">Üzenet küldése <span>→</span></button>
+        <p class="form-note">Az űrlap megnyitja az alapértelmezett levelezőprogramodat.</p>
+      </form>
     </section>
   </main>
 
   <footer>
-    <a class="logo light" href="#top"><span class="logo-mark"><i></i></span>makaranya</a>
-    <p>Small treats. Big feelings.</p>
-    <div><a href="#flavours">Shop</a><a href="#story">Story</a><a href="mailto:hello@makaranya.com">Contact</a><a href="#">Instagram</a></div>
-    <small>© 2026 Makaranya. Made with care.</small>
+    <a class="logo light" href="#top"><span class="logo-mark"><i></i></span>makaranya</a><p>Kis finomság. Nagy élmény.</p>
+    <div><a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Kapcsolat</a></div>
+    <small>© 2026 Makaranya. Szeretettel készítve.</small>
   </footer>
-  <div class="toast" role="status">Added to your box ♡</div>
+  <div class="toast" role="status">Hozzáadtuk a dobozodhoz ♡</div>
   <script src="script.js"></script>
 </body>
 </html>

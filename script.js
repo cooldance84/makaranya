@@ -31,3 +31,12 @@ document.querySelectorAll('.flavour-card button').forEach(button => button.addEv
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
 }));
+
+const contactForm = document.querySelector('#contact-form');
+contactForm.addEventListener('submit', event => {
+  event.preventDefault();
+  const data = new FormData(contactForm);
+  const subject = `Makaranya — ${data.get('subject')}`;
+  const body = `Név: ${data.get('name')}\nE-mail: ${data.get('email')}\n\n${data.get('message')}`;
+  window.location.href = `mailto:hello@makaranya.hu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+});
