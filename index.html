@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260718-2">
+  <link rel="stylesheet" href="styles.css?v=20260719-1">
 </head>
 <body>
   <div class="announcement">Ingyenes kiszállítás 12 darabos doboztól <span>✦</span> Minden reggel frissen készítve</div>
@@ -18,7 +18,7 @@
     <nav aria-label="Fő navigáció">
       <a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Elérhetőség</a>
     </nav>
-    <a class="bag" href="#flavours">Dobozom <span>0</span></a>
+    <button class="bag" id="cart-open" type="button" aria-label="Kosár megnyitása">Dobozom <span>0</span></button>
   </header>
 
   <main id="top">
@@ -49,10 +49,10 @@
         <p>A friss, gyümölcsös ízektől a mély, csokoládés élményekig — találd meg a kedvencedet.</p>
       </div>
       <div class="flavour-grid">
-        <article class="flavour-card rose reveal"><div class="card-number">01</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Rózsa–málna</h3><p>Virágos, fanyar és álomszerű</p></div><button aria-label="Rózsa–málna hozzáadása">+</button></article>
-        <article class="flavour-card green reveal"><div class="card-number">02</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Sós pisztácia</h3><p>Diós, krémes és lágy</p></div><button aria-label="Sós pisztácia hozzáadása">+</button></article>
-        <article class="flavour-card yellow reveal"><div class="card-number">03</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Citromhab</h3><p>Napfényes, puha és frissítő</p></div><button aria-label="Citromhab hozzáadása">+</button></article>
-        <article class="flavour-card cocoa reveal"><div class="card-number">04</div><div class="mini-mac"><b></b><i></i><b></b></div><div><h3>Étcsokoládé</h3><p>Gazdag, selymes és karakteres</p></div><button aria-label="Étcsokoládé hozzáadása">+</button></article>
+        <article class="flavour-card rose reveal" data-product-id="rose-raspberry"><div class="card-number">01</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Rózsa–málna</h3><p>Virágos, fanyar és álomszerű</p></div><strong>790 Ft</strong></div><button class="add-product" type="button" aria-label="Rózsa–málna hozzáadása">+</button></article>
+        <article class="flavour-card green reveal" data-product-id="salted-pistachio"><div class="card-number">02</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Sós pisztácia</h3><p>Diós, krémes és lágy</p></div><strong>850 Ft</strong></div><button class="add-product" type="button" aria-label="Sós pisztácia hozzáadása">+</button></article>
+        <article class="flavour-card yellow reveal" data-product-id="lemon-meringue"><div class="card-number">03</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Citromhab</h3><p>Napfényes, puha és frissítő</p></div><strong>750 Ft</strong></div><button class="add-product" type="button" aria-label="Citromhab hozzáadása">+</button></article>
+        <article class="flavour-card cocoa reveal" data-product-id="dark-chocolate"><div class="card-number">04</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Étcsokoládé</h3><p>Gazdag, selymes és karakteres</p></div><strong>820 Ft</strong></div><button class="add-product" type="button" aria-label="Étcsokoládé hozzáadása">+</button></article>
       </div>
     </section>
 
@@ -101,7 +101,38 @@
     <div><a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Kapcsolat</a></div>
     <small>© 2026 Makaranya. Szeretettel készítve.</small>
   </footer>
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
+    <div class="cart-head">
+      <div><p class="eyebrow">Saját válogatásod</p><h2 id="cart-title">A dobozod</h2></div>
+      <button class="cart-close" type="button" aria-label="Kosár bezárása">×</button>
+    </div>
+    <div class="cart-content">
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-empty" id="cart-empty"><span>♡</span><strong>A dobozod még üres.</strong><p>Válassz néhány kedvenc ízt!</p><button type="button" id="cart-shop">Ízek megtekintése</button></div>
+      <div class="cart-summary" id="cart-summary">
+        <div><span>Macaronok</span><strong id="cart-subtotal">0 Ft</strong></div>
+        <small>A végleges átvételi vagy szállítási díjat e-mailben egyeztetjük.</small>
+      </div>
+      <form class="order-form" id="order-form">
+        <h3>Rendelési adatok</h3>
+        <label class="honeypot" aria-hidden="true">Weboldal<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+        <div class="order-fields two-columns">
+          <label>Név<input name="name" type="text" autocomplete="name" required></label>
+          <label>Telefonszám<input name="phone" type="tel" autocomplete="tel" required></label>
+        </div>
+        <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
+        <label>Átvétel<select name="delivery" id="delivery-select"><option value="pickup">Személyes átvétel</option><option value="delivery">Kiszállítás — egyeztetés alapján</option></select></label>
+        <label class="address-field" id="address-field">Szállítási cím<input name="address" type="text" autocomplete="street-address"></label>
+        <label>Megjegyzés<textarea name="note" rows="3" maxlength="1000" placeholder="Dátum, különleges kérés, allergia..."></textarea></label>
+        <label class="consent"><input name="consent" type="checkbox" required><span>Elfogadom, hogy a megadott adataimat a rendelés egyeztetéséhez kezeljék.</span></label>
+        <button class="button dark order-submit" type="submit">Rendelés elküldése <span>→</span></button>
+        <p class="order-status" id="order-status" role="status"></p>
+      </form>
+      <div class="order-success" id="order-success" hidden><span>✓</span><h3>Köszönjük a rendelést!</h3><p>A visszaigazolást elküldtük az e-mail-címedre. Hamarosan jelentkezünk az átvétel részleteivel.</p><button type="button" id="success-close">Rendben</button></div>
+    </div>
+  </aside>
   <div class="toast" role="status">Hozzáadtuk a dobozodhoz ♡</div>
-  <script src="script.js?v=20260718-2"></script>
+  <script src="script.js?v=20260719-1"></script>
 </body>
 </html>
