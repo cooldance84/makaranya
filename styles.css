@@ -21,9 +21,12 @@ button.bag{font-family:var(--sans);color:var(--ink);border:0;border-bottom:1px s
 @media(max-width:520px){.cart-head h2{font-size:32px}.cart-line{grid-template-columns:52px 1fr auto;gap:11px}.cart-line-art{width:50px;height:42px}.cart-line-art:before,.cart-line-art:after{width:50px;height:21px}.cart-line-art i{top:17px;height:9px}.order-fields.two-columns{grid-template-columns:1fr}.product-meta{padding-right:45px}}
 
 /* 2026 premium refresh: photography, box builder, seasonal offer and reviews */
-.site-header{position:sticky;top:0;z-index:80;box-shadow:0 8px 24px rgba(52,36,31,.07)}
-html{scroll-padding-top:110px}
-section[id],#box-builder{scroll-margin-top:110px}
+:root{--announcement-height:33px;--header-height:86px}
+body{padding-top:calc(var(--announcement-height) + var(--header-height))}
+.announcement{position:fixed;inset:0 0 auto;height:var(--announcement-height);z-index:81}
+.site-header{position:fixed;inset:var(--announcement-height) 0 auto;z-index:80;box-shadow:0 8px 24px rgba(52,36,31,.07)}
+html{scroll-padding-top:calc(var(--announcement-height) + var(--header-height) + 12px)}
+section[id],#box-builder{scroll-margin-top:calc(var(--announcement-height) + var(--header-height) + 12px)}
 .site-header nav{gap:clamp(18px,2.3vw,36px)}
 .hero-art--photo{background:#e8c8c1;isolation:isolate}
 .hero-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
