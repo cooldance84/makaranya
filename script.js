@@ -30,6 +30,8 @@ const boxSlots = document.querySelector('#box-slots');
 const progressLabel = document.querySelector('#box-progress-label');
 const progressHint = document.querySelector('#box-progress-hint');
 const progressBar = document.querySelector('#box-progress-bar');
+const builderActionNote = document.querySelector('#builder-action-note');
+const builderCartButton = document.querySelector('#builder-cart-button');
 const toast = document.querySelector('.toast');
 const money = new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', maximumFractionDigits: 0 });
 
@@ -93,6 +95,8 @@ function renderBuilder() {
   progressLabel.textContent = `${count} / ${boxSize} hely`;
   cartCapacity.textContent = `${count} / ${boxSize} darab`;
   progressHint.textContent = remaining > 0 ? `Még ${remaining} macaront válassz` : 'A doboz megtelt ✓';
+  builderActionNote.textContent = remaining > 0 ? `Még ${remaining} darab hiányzik a kosárhoz.` : 'A válogatásod elkészült.';
+  builderCartButton.disabled = remaining > 0;
   progressBar.style.width = `${Math.min(100, count / boxSize * 100)}%`;
   const chosen = expandedCart();
   boxSlots.innerHTML = Array.from({ length: boxSize }, (_, index) => {
@@ -203,6 +207,12 @@ document.querySelector('#seasonal-add').addEventListener('click', () => {
   saveState();
   renderCart();
   showToast('A szezonális válogatás elkészült ✓');
+  setCartOpen(true);
+});
+
+builderCartButton.addEventListener('click', () => {
+  if (cartCount() !== boxSize) return;
+  showToast('A dobozod a kosárban van ✓');
   setCartOpen(true);
 });
 
