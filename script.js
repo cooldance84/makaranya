@@ -102,7 +102,7 @@ function renderBuilder() {
   boxSlots.innerHTML = Array.from({ length: boxSize }, (_, index) => {
     const id = chosen[index];
     return id
-      ? `<span class="box-slot filled" style="background-image:url('${PRODUCTS[id].image}')" title="${PRODUCTS[id].name}"></span>`
+      ? `<button type="button" class="box-slot filled" data-remove-slot="${id}" style="background-image:url('${PRODUCTS[id].image}')" aria-label="${PRODUCTS[id].name} eltávolítása"><i aria-hidden="true">×</i></button>`
       : '<span class="box-slot" aria-hidden="true"></span>';
   }).join('');
 }
@@ -214,6 +214,17 @@ builderCartButton.addEventListener('click', () => {
   if (cartCount() !== boxSize) return;
   showToast('A dobozod a kosárban van ✓');
   setCartOpen(true);
+});
+
+boxSlots.addEventListener('click', event => {
+  const slot = event.target.closest('[data-remove-slot]');
+  if (!slot) return;
+  const id = slot.dataset.removeSlot;
+  cart[id] -= 1;
+  if (cart[id] <= 0) delete cart[id];
+  saveState();
+  renderCart();
+  showToast(`${PRODUCTS[id].name} eltávolítva`);
 });
 
 cartItems.addEventListener('click', event => {
