@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260819-6">
+  <link rel="stylesheet" href="styles.css?v=20260819-7">
 </head>
 <body>
   <div class="announcement">Ingyenes kiszállítás 12 darabos doboztól <span>✦</span> Minden reggel frissen készítve</div>
@@ -41,7 +41,7 @@
       <div class="box-builder reveal" id="box-builder">
         <div class="builder-copy"><p class="eyebrow">1. lépés</p><h3>Válaszd ki a doboz méretét</h3><p>A plusz gombokkal annyi macaront válassz, ahány hely van a dobozban. Az ízeket szabadon keverheted.</p></div>
         <div class="builder-controls">
-          <div class="box-size-options" aria-label="Dobozméret"><button type="button" data-box-size="6" aria-pressed="true"><strong>6</strong><span>darabos</span></button><button type="button" data-box-size="12" aria-pressed="false"><strong>12</strong><span>darabos</span></button><button type="button" data-box-size="18" aria-pressed="false"><strong>18</strong><span>darabos</span></button></div>
+          <div class="box-size-options" aria-label="Dobozméret"><button type="button" data-builder-box-size="6" aria-pressed="true"><strong>6</strong><span>darabos</span></button><button type="button" data-builder-box-size="12" aria-pressed="false"><strong>12</strong><span>darabos</span></button><button type="button" data-builder-box-size="18" aria-pressed="false"><strong>18</strong><span>darabos</span></button></div>
           <div class="box-progress-copy"><span id="box-progress-label">0 / 6 hely</span><strong id="box-progress-hint">Még 6 macaront válassz</strong></div>
           <div class="box-progress" aria-hidden="true"><i id="box-progress-bar"></i></div><div class="box-slots" id="box-slots" aria-label="A doboz töltöttsége"></div>
           <div class="builder-action"><span id="builder-action-note">Töltsd meg a dobozt a folytatáshoz.</span><button type="button" id="builder-cart-button" disabled>Kosárhoz adom <b>→</b></button></div>
@@ -98,7 +98,7 @@
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
     <div class="cart-head"><div><p class="eyebrow">Saját válogatásod</p><h2 id="cart-title">A dobozod</h2></div><button class="cart-close" type="button" aria-label="Kosár bezárása">×</button></div>
     <div class="cart-content">
-      <div class="cart-box-config"><div><span>Dobozméret</span><strong id="cart-capacity">0 / 6 darab</strong></div><div class="box-size-options compact" aria-label="Dobozméret a kosárban"><button type="button" data-box-size="6" aria-pressed="true"><strong>6</strong></button><button type="button" data-box-size="12" aria-pressed="false"><strong>12</strong></button><button type="button" data-box-size="18" aria-pressed="false"><strong>18</strong></button></div></div>
+      <div class="cart-box-config"><div><span>Dobozméret</span><strong id="cart-capacity">0 / 6 darab</strong></div><div class="box-size-options compact" aria-label="Dobozméret a kosárban"><button type="button" data-cart-box-size="6" aria-pressed="true"><strong>6</strong></button><button type="button" data-cart-box-size="12" aria-pressed="false"><strong>12</strong></button><button type="button" data-cart-box-size="18" aria-pressed="false"><strong>18</strong></button></div></div>
       <div class="cart-items" id="cart-items"></div>
       <div class="cart-empty" id="cart-empty"><span>♧</span><strong>A dobozod még üres.</strong><p>Válassz néhány kedvenc ízt!</p><button type="button" id="cart-shop">Ízek megtekintése</button></div>
       <div class="cart-summary" id="cart-summary"><div><span>Macaronok</span><strong id="cart-subtotal">0 Ft</strong></div><small id="cart-summary-note">A rendeléshez töltsd meg a kiválasztott dobozt.</small></div>
@@ -107,6 +107,6 @@
     </div>
   </aside>
   <div class="toast" role="status">Hozzáadtuk a dobozodhoz ♧</div>
-  <script src="script.js?v=20260819-6"></script>
+  <script src="script.js?v=20260819-7"></script>
 </body>
 </html>

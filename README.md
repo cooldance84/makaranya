@@ -6,6 +6,7 @@ Magyar nyelvű, reszponzív macaron-weboldal prémium termékfotókkal, interakt
 
 - 6, 12 vagy 18 darabos, szabadon összeállítható macaronos doboz
 - valós idejű töltöttségjelző, kosár és végösszeg
+- ideiglenes válogatás: csak a „Kosárhoz adom” gomb után kerül tartós mentésre
 - négy mintaíz saját termékfotóval
 - egy kattintással kosárba tehető, 12 darabos szezonális válogatás
 - mobilbarát fotógaléria és bemutató vásárlói vélemények
@@ -18,10 +19,11 @@ Magyar nyelvű, reszponzív macaron-weboldal prémium termékfotókkal, interakt
 ## Rendelési folyamat
 
 1. A vásárló kiválasztja a 6, 12 vagy 18 darabos dobozt.
-2. Ízenként összeállítja a válogatását, vagy betölti a kész szezonális dobozt.
-3. A rendelés csak teljesen megtöltött dobozzal küldhető el.
-4. A `netlify/functions/order.mjs` szerveroldalon újra ellenőrzi a termékeket, a darabszámot és az árakat.
-5. A Resend elküldi a rendelést az üzletnek, valamint a visszaigazolást a vásárlónak.
+2. Ízenként összeállítja az ideiglenes válogatását, vagy betölti a kész szezonális dobozt.
+3. A teljes válogatás a „Kosárhoz adom” gombbal kerül a tartós kosárba; a félbehagyott összeállítás oldalfrissítéskor törlődik.
+4. A rendelés csak teljesen megtöltött dobozzal küldhető el.
+5. A `netlify/functions/order.mjs` szerveroldalon újra ellenőrzi a termékeket, a darabszámot és az árakat.
+6. A Resend elküldi a rendelést az üzletnek, valamint a visszaigazolást a vásárlónak.
 
 A rendelés ebben a verzióban nem tartalmaz online fizetést. Az átvétel, a szállítás és a fizetés részleteit utólag kell egyeztetni.
 

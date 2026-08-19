@@ -6,8 +6,8 @@ const PRODUCTS = {
 };
 
 const BOX_SIZES = [6, 12, 18];
-const CART_KEY = 'makaranya-cart-v1';
-const BOX_SIZE_KEY = 'makaranya-box-size-v1';
+const CART_KEY = 'makaranya-cart-v2';
+const BOX_SIZE_KEY = 'makaranya-box-size-v2';
 const ORDER_REQUEST_KEY = 'makaranya-order-request-v1';
 const header = document.querySelector('.site-header');
 const menuButton = document.querySelector('.menu-toggle');
@@ -37,7 +37,9 @@ const money = new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF
 
 let toastTimer;
 let cart = loadCart();
-let boxSize = loadBoxSize();
+let cartBoxSize = loadBoxSize();
+let selection = {};
+let selectionBoxSize = 6;
 fitLegacyCart();
 
 function loadCart() {
@@ -62,12 +64,12 @@ function fitLegacyCart() {
     return [id, kept];
   }).filter(([, quantity]) => quantity > 0));
   const count = cartCount();
-  if (count > boxSize) boxSize = BOX_SIZES.find(size => size >= count) || 18;
+  if (count > cartBoxSize) cartBoxSize = BOX_SIZES.find(size => size >= count) || 18;
 }
 
 function saveState() {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
-  localStorage.setItem(BOX_SIZE_KEY, String(boxSize));
+  localStorage.setItem(BOX_SIZE_KEY, String(cartBoxSize));
   sessionStorage.removeItem(ORDER_REQUEST_KEY);
   orderSuccess.hidden = true;
 }
@@ -80,26 +82,29 @@ function cartTotal() {
   return Object.entries(cart).reduce((sum, [id, quantity]) => sum + PRODUCTS[id].price * quantity, 0);
 }
 
-function expandedCart() {
-  return Object.entries(cart).flatMap(([id, quantity]) => Array(quantity).fill(id));
+function selectionCount() {
+  return Object.values(selection).reduce((sum, quantity) => sum + quantity, 0);
+}
+
+function expandedSelection() {
+  return Object.entries(selection).flatMap(([id, quantity]) => Array(quantity).fill(id));
 }
 
 function renderBuilder() {
-  const count = cartCount();
-  const remaining = boxSize - count;
-  document.querySelectorAll('[data-box-size]').forEach(button => {
-    const active = Number(button.dataset.boxSize) === boxSize;
+  const count = selectionCount();
+  const remaining = selectionBoxSize - count;
+  document.querySelectorAll('[data-builder-box-size]').forEach(button => {
+    const active = Number(button.dataset.builderBoxSize) === selectionBoxSize;
     button.classList.toggle('active', active);
     button.setAttribute('aria-pressed', String(active));
   });
-  progressLabel.textContent = `${count} / ${boxSize} hely`;
-  cartCapacity.textContent = `${count} / ${boxSize} darab`;
+  progressLabel.textContent = `${count} / ${selectionBoxSize} hely`;
   progressHint.textContent = remaining > 0 ? `Még ${remaining} macaront válassz` : 'A doboz megtelt ✓';
   builderActionNote.textContent = remaining > 0 ? `Még ${remaining} darab hiányzik a kosárhoz.` : 'A válogatásod elkészült.';
   builderCartButton.disabled = remaining > 0;
-  progressBar.style.width = `${Math.min(100, count / boxSize * 100)}%`;
-  const chosen = expandedCart();
-  boxSlots.innerHTML = Array.from({ length: boxSize }, (_, index) => {
+  progressBar.style.width = `${Math.min(100, count / selectionBoxSize * 100)}%`;
+  const chosen = expandedSelection();
+  boxSlots.innerHTML = Array.from({ length: selectionBoxSize }, (_, index) => {
     const id = chosen[index];
     return id
       ? `<button type="button" class="box-slot filled" data-remove-slot="${id}" style="background-image:url('${PRODUCTS[id].image}')" aria-label="${PRODUCTS[id].name} eltávolítása"><i aria-hidden="true">×</i></button>`
@@ -111,9 +116,15 @@ function renderCart() {
   const entries = Object.entries(cart);
   const count = cartCount();
   const empty = entries.length === 0;
-  const complete = count === boxSize;
+  const complete = count === cartBoxSize;
 
   bagCount.textContent = count;
+  cartCapacity.textContent = `${count} / ${cartBoxSize} darab`;
+  document.querySelectorAll('[data-cart-box-size]').forEach(button => {
+    const active = Number(button.dataset.cartBoxSize) === cartBoxSize;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
   cartEmpty.hidden = !empty;
   cartItems.hidden = empty;
   cartSummary.hidden = empty;
@@ -133,33 +144,42 @@ function renderCart() {
   cartSubtotal.textContent = money.format(cartTotal());
   cartSummaryNote.textContent = complete
     ? 'A doboz kész — add meg az adataidat a rendelés elküldéséhez.'
-    : `A rendeléshez még ${boxSize - count} macaront válassz.`;
+    : `A rendeléshez még ${cartBoxSize - count} macaront válassz.`;
   const submitButton = orderForm.querySelector('.order-submit');
   submitButton.disabled = !complete;
-  submitButton.title = complete ? '' : `A ${boxSize} darabos dobozt teljesen meg kell tölteni.`;
+  submitButton.title = complete ? '' : `A ${cartBoxSize} darabos dobozt teljesen meg kell tölteni.`;
   renderBuilder();
 }
 
-function setBoxSize(nextSize) {
+function setBuilderBoxSize(nextSize) {
   if (!BOX_SIZES.includes(nextSize)) return;
-  if (cartCount() > nextSize) {
+  if (selectionCount() > nextSize) {
     showToast(`Előbb csökkentsd a doboz tartalmát ${nextSize} darabra.`);
     return;
   }
-  boxSize = nextSize;
+  selectionBoxSize = nextSize;
+  renderBuilder();
+}
+
+function setCartBoxSize(nextSize) {
+  if (!BOX_SIZES.includes(nextSize)) return;
+  if (cartCount() > nextSize) {
+    showToast(`Előbb csökkentsd a kosár tartalmát ${nextSize} darabra.`);
+    return;
+  }
+  cartBoxSize = nextSize;
   saveState();
   renderCart();
 }
 
 function addProduct(id) {
-  if (cartCount() >= boxSize) {
+  if (selectionCount() >= selectionBoxSize) {
     showToast('A doboz megtelt — válassz nagyobb méretet.');
     return;
   }
-  cart[id] = (cart[id] || 0) + 1;
-  saveState();
-  renderCart();
-  showToast(cartCount() === boxSize ? 'Kész a dobozod ✓' : 'Hozzáadtuk a dobozodhoz ♧');
+  selection[id] = (selection[id] || 0) + 1;
+  renderBuilder();
+  showToast(selectionCount() === selectionBoxSize ? 'Kész a dobozod ✓' : 'Hozzáadtuk a válogatásodhoz ♧');
 }
 
 function setCartOpen(open) {
@@ -198,11 +218,12 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
 
-document.querySelectorAll('[data-box-size]').forEach(button => button.addEventListener('click', () => setBoxSize(Number(button.dataset.boxSize))));
+document.querySelectorAll('[data-builder-box-size]').forEach(button => button.addEventListener('click', () => setBuilderBoxSize(Number(button.dataset.builderBoxSize))));
+document.querySelectorAll('[data-cart-box-size]').forEach(button => button.addEventListener('click', () => setCartBoxSize(Number(button.dataset.cartBoxSize))));
 document.querySelectorAll('.add-product').forEach(button => button.addEventListener('click', () => addProduct(button.closest('[data-product-id]').dataset.productId)));
 
 document.querySelector('#seasonal-add').addEventListener('click', () => {
-  boxSize = 12;
+  cartBoxSize = 12;
   cart = Object.fromEntries(Object.keys(PRODUCTS).map(id => [id, 3]));
   saveState();
   renderCart();
@@ -211,7 +232,13 @@ document.querySelector('#seasonal-add').addEventListener('click', () => {
 });
 
 builderCartButton.addEventListener('click', () => {
-  if (cartCount() !== boxSize) return;
+  if (selectionCount() !== selectionBoxSize) return;
+  cart = { ...selection };
+  cartBoxSize = selectionBoxSize;
+  selection = {};
+  selectionBoxSize = 6;
+  saveState();
+  renderCart();
   showToast('A dobozod a kosárban van ✓');
   setCartOpen(true);
 });
@@ -220,10 +247,9 @@ boxSlots.addEventListener('click', event => {
   const slot = event.target.closest('[data-remove-slot]');
   if (!slot) return;
   const id = slot.dataset.removeSlot;
-  cart[id] -= 1;
-  if (cart[id] <= 0) delete cart[id];
-  saveState();
-  renderCart();
+  selection[id] -= 1;
+  if (selection[id] <= 0) delete selection[id];
+  renderBuilder();
   showToast(`${PRODUCTS[id].name} eltávolítva`);
 });
 
@@ -233,7 +259,13 @@ cartItems.addEventListener('click', event => {
   const id = button.closest('[data-cart-id]').dataset.cartId;
   const action = button.dataset.action;
   if (action === 'plus') {
-    addProduct(id);
+    if (cartCount() >= cartBoxSize) {
+      showToast('A kosárban lévő doboz megtelt.');
+      return;
+    }
+    cart[id] += 1;
+    saveState();
+    renderCart();
     return;
   }
   if (action === 'minus') cart[id] -= 1;
@@ -267,9 +299,9 @@ deliverySelect.addEventListener('change', updateAddressField);
 
 orderForm.addEventListener('submit', async event => {
   event.preventDefault();
-  if (cartCount() !== boxSize) {
+  if (cartCount() !== cartBoxSize) {
     orderStatus.className = 'order-status error';
-    orderStatus.textContent = `A rendeléshez pontosan ${boxSize} macaront válassz.`;
+    orderStatus.textContent = `A rendeléshez pontosan ${cartBoxSize} macaront válassz.`;
     return;
   }
 
@@ -282,7 +314,7 @@ orderForm.addEventListener('submit', async event => {
   }
   const payload = {
     requestId,
-    boxSize,
+    boxSize: cartBoxSize,
     customer: { name: formData.get('name'), email: formData.get('email'), phone: formData.get('phone') },
     delivery: formData.get('delivery'),
     address: formData.get('address'),
@@ -313,7 +345,7 @@ orderForm.addEventListener('submit', async event => {
     orderStatus.textContent = error.message;
   } finally {
     submitButton.classList.remove('loading');
-    submitButton.disabled = cartCount() !== boxSize;
+    submitButton.disabled = cartCount() !== cartBoxSize;
   }
 });
 
