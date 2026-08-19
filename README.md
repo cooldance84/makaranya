@@ -7,7 +7,7 @@ Magyar nyelvű, reszponzív macaron-weboldal prémium termékfotókkal, interakt
 - 6, 12 vagy 18 darabos, szabadon összeállítható macaronos doboz
 - valós idejű töltöttségjelző, kosár és végösszeg
 - ideiglenes válogatás: csak a „Kosárhoz adom” gomb után kerül tartós mentésre
-- négy mintaíz saját termékfotóval
+- válogatott mintaízek saját termékfotóval
 - egy kattintással kosárba tehető, 12 darabos szezonális válogatás
 - mobilbarát fotógaléria és bemutató vásárlói vélemények
 - Netlify Function alapú rendelésfeldolgozás
