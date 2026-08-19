@@ -41,6 +41,12 @@ let cartBoxSize = loadBoxSize();
 let selection = {};
 let selectionBoxSize = 6;
 fitLegacyCart();
+try {
+  localStorage.removeItem('makaranya-cart-v1');
+  localStorage.removeItem('makaranya-box-size-v1');
+} catch {
+  // A privát böngészési mód letilthatja a helyi tárhelyet.
+}
 
 function loadCart() {
   try {
@@ -288,6 +294,12 @@ document.querySelector('#success-close').addEventListener('click', () => {
 });
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && cartDrawer.classList.contains('open')) setCartOpen(false);
+});
+
+window.addEventListener('pageshow', () => {
+  selection = {};
+  selectionBoxSize = 6;
+  renderBuilder();
 });
 
 function updateAddressField() {
