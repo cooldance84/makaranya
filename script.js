@@ -1,11 +1,13 @@
 const PRODUCTS = {
-  'rose-raspberry': { name: 'Rózsa–málna', price: 790 },
-  'salted-pistachio': { name: 'Sós pisztácia', price: 850 },
-  'lemon-meringue': { name: 'Citromhab', price: 750 },
-  'dark-chocolate': { name: 'Étcsokoládé', price: 820 }
+  'rose-raspberry': { name: 'Rózsa–málna', price: 790, image: 'assets/images/rose-raspberry.jpg' },
+  'salted-pistachio': { name: 'Sós pisztácia', price: 850, image: 'assets/images/salted-pistachio.jpg' },
+  'lemon-meringue': { name: 'Citromhab', price: 750, image: 'assets/images/lemon-meringue.jpg' },
+  'dark-chocolate': { name: 'Étcsokoládé', price: 820, image: 'assets/images/dark-chocolate.jpg' }
 };
 
+const BOX_SIZES = [6, 12, 18];
 const CART_KEY = 'makaranya-cart-v1';
+const BOX_SIZE_KEY = 'makaranya-box-size-v1';
 const ORDER_REQUEST_KEY = 'makaranya-order-request-v1';
 const header = document.querySelector('.site-header');
 const menuButton = document.querySelector('.menu-toggle');
@@ -16,17 +18,25 @@ const cartItems = document.querySelector('#cart-items');
 const cartEmpty = document.querySelector('#cart-empty');
 const cartSummary = document.querySelector('#cart-summary');
 const cartSubtotal = document.querySelector('#cart-subtotal');
+const cartSummaryNote = document.querySelector('#cart-summary-note');
+const cartCapacity = document.querySelector('#cart-capacity');
 const bagCount = cartButton.querySelector('span');
 const orderForm = document.querySelector('#order-form');
 const orderStatus = document.querySelector('#order-status');
 const orderSuccess = document.querySelector('#order-success');
 const deliverySelect = document.querySelector('#delivery-select');
 const addressField = document.querySelector('#address-field');
+const boxSlots = document.querySelector('#box-slots');
+const progressLabel = document.querySelector('#box-progress-label');
+const progressHint = document.querySelector('#box-progress-hint');
+const progressBar = document.querySelector('#box-progress-bar');
 const toast = document.querySelector('.toast');
 const money = new Intl.NumberFormat('hu-HU', { style: 'currency', currency: 'HUF', maximumFractionDigits: 0 });
 
 let toastTimer;
 let cart = loadCart();
+let boxSize = loadBoxSize();
+fitLegacyCart();
 
 function loadCart() {
   try {
@@ -37,8 +47,25 @@ function loadCart() {
   }
 }
 
-function saveCart() {
+function loadBoxSize() {
+  const saved = Number(localStorage.getItem(BOX_SIZE_KEY));
+  return BOX_SIZES.includes(saved) ? saved : 6;
+}
+
+function fitLegacyCart() {
+  let remaining = 18;
+  cart = Object.fromEntries(Object.entries(cart).map(([id, quantity]) => {
+    const kept = Math.min(quantity, remaining);
+    remaining -= kept;
+    return [id, kept];
+  }).filter(([, quantity]) => quantity > 0));
+  const count = cartCount();
+  if (count > boxSize) boxSize = BOX_SIZES.find(size => size >= count) || 18;
+}
+
+function saveState() {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  localStorage.setItem(BOX_SIZE_KEY, String(boxSize));
   sessionStorage.removeItem(ORDER_REQUEST_KEY);
   orderSuccess.hidden = true;
 }
@@ -51,11 +78,38 @@ function cartTotal() {
   return Object.entries(cart).reduce((sum, [id, quantity]) => sum + PRODUCTS[id].price * quantity, 0);
 }
 
+function expandedCart() {
+  return Object.entries(cart).flatMap(([id, quantity]) => Array(quantity).fill(id));
+}
+
+function renderBuilder() {
+  const count = cartCount();
+  const remaining = boxSize - count;
+  document.querySelectorAll('[data-box-size]').forEach(button => {
+    const active = Number(button.dataset.boxSize) === boxSize;
+    button.classList.toggle('active', active);
+    button.setAttribute('aria-pressed', String(active));
+  });
+  progressLabel.textContent = `${count} / ${boxSize} hely`;
+  cartCapacity.textContent = `${count} / ${boxSize} darab`;
+  progressHint.textContent = remaining > 0 ? `Még ${remaining} macaront válassz` : 'A doboz megtelt ✓';
+  progressBar.style.width = `${Math.min(100, count / boxSize * 100)}%`;
+  const chosen = expandedCart();
+  boxSlots.innerHTML = Array.from({ length: boxSize }, (_, index) => {
+    const id = chosen[index];
+    return id
+      ? `<span class="box-slot filled" style="background-image:url('${PRODUCTS[id].image}')" title="${PRODUCTS[id].name}"></span>`
+      : '<span class="box-slot" aria-hidden="true"></span>';
+  }).join('');
+}
+
 function renderCart() {
   const entries = Object.entries(cart);
+  const count = cartCount();
   const empty = entries.length === 0;
+  const complete = count === boxSize;
 
-  bagCount.textContent = cartCount();
+  bagCount.textContent = count;
   cartEmpty.hidden = !empty;
   cartItems.hidden = empty;
   cartSummary.hidden = empty;
@@ -64,7 +118,7 @@ function renderCart() {
   cartItems.innerHTML = entries.map(([id, quantity]) => {
     const product = PRODUCTS[id];
     return `<div class="cart-line" data-cart-id="${id}">
-      <div class="cart-line-art ${id}"><i></i></div>
+      <img class="cart-line-photo" src="${product.image}" alt="" width="62" height="62">
       <div class="cart-line-copy"><strong>${product.name}</strong><small>${money.format(product.price)} / db</small>
         <div class="quantity"><button type="button" data-action="minus" aria-label="Egy darab eltávolítása">−</button><span>${quantity}</span><button type="button" data-action="plus" aria-label="Egy darab hozzáadása">+</button></div>
       </div>
@@ -73,6 +127,35 @@ function renderCart() {
   }).join('');
 
   cartSubtotal.textContent = money.format(cartTotal());
+  cartSummaryNote.textContent = complete
+    ? 'A doboz kész — add meg az adataidat a rendelés elküldéséhez.'
+    : `A rendeléshez még ${boxSize - count} macaront válassz.`;
+  const submitButton = orderForm.querySelector('.order-submit');
+  submitButton.disabled = !complete;
+  submitButton.title = complete ? '' : `A ${boxSize} darabos dobozt teljesen meg kell tölteni.`;
+  renderBuilder();
+}
+
+function setBoxSize(nextSize) {
+  if (!BOX_SIZES.includes(nextSize)) return;
+  if (cartCount() > nextSize) {
+    showToast(`Előbb csökkentsd a doboz tartalmát ${nextSize} darabra.`);
+    return;
+  }
+  boxSize = nextSize;
+  saveState();
+  renderCart();
+}
+
+function addProduct(id) {
+  if (cartCount() >= boxSize) {
+    showToast('A doboz megtelt — válassz nagyobb méretet.');
+    return;
+  }
+  cart[id] = (cart[id] || 0) + 1;
+  saveState();
+  renderCart();
+  showToast(cartCount() === boxSize ? 'Kész a dobozod ✓' : 'Hozzáadtuk a dobozodhoz ♧');
 }
 
 function setCartOpen(open) {
@@ -84,11 +167,11 @@ function setCartOpen(open) {
   if (open) document.querySelector('.cart-close').focus();
 }
 
-function showToast(message = 'Hozzáadtuk a dobozodhoz ♡') {
+function showToast(message = 'Hozzáadtuk a dobozodhoz ♧') {
   toast.textContent = message;
   toast.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
 }
 
 menuButton.addEventListener('click', () => {
@@ -111,23 +194,30 @@ const observer = new IntersectionObserver(entries => {
 }, { threshold: 0.12 });
 document.querySelectorAll('.reveal').forEach(item => observer.observe(item));
 
-document.querySelectorAll('.add-product').forEach(button => button.addEventListener('click', () => {
-  const id = button.closest('[data-product-id]').dataset.productId;
-  cart[id] = (cart[id] || 0) + 1;
-  saveCart();
+document.querySelectorAll('[data-box-size]').forEach(button => button.addEventListener('click', () => setBoxSize(Number(button.dataset.boxSize))));
+document.querySelectorAll('.add-product').forEach(button => button.addEventListener('click', () => addProduct(button.closest('[data-product-id]').dataset.productId)));
+
+document.querySelector('#seasonal-add').addEventListener('click', () => {
+  boxSize = 12;
+  cart = Object.fromEntries(Object.keys(PRODUCTS).map(id => [id, 3]));
+  saveState();
   renderCart();
-  showToast();
-}));
+  showToast('A szezonális válogatás elkészült ✓');
+  setCartOpen(true);
+});
 
 cartItems.addEventListener('click', event => {
   const button = event.target.closest('button[data-action]');
   if (!button) return;
   const id = button.closest('[data-cart-id]').dataset.cartId;
   const action = button.dataset.action;
-  if (action === 'plus') cart[id] += 1;
+  if (action === 'plus') {
+    addProduct(id);
+    return;
+  }
   if (action === 'minus') cart[id] -= 1;
   if (action === 'remove' || cart[id] <= 0) delete cart[id];
-  saveCart();
+  saveState();
   renderCart();
 });
 
@@ -136,7 +226,7 @@ document.querySelector('.cart-close').addEventListener('click', () => setCartOpe
 cartOverlay.addEventListener('click', () => setCartOpen(false));
 document.querySelector('#cart-shop').addEventListener('click', () => {
   setCartOpen(false);
-  document.querySelector('#flavours').scrollIntoView({ behavior: 'smooth' });
+  document.querySelector('#box-builder').scrollIntoView({ behavior: 'smooth' });
 });
 document.querySelector('#success-close').addEventListener('click', () => {
   orderSuccess.hidden = true;
@@ -156,7 +246,11 @@ deliverySelect.addEventListener('change', updateAddressField);
 
 orderForm.addEventListener('submit', async event => {
   event.preventDefault();
-  if (!cartCount()) return;
+  if (cartCount() !== boxSize) {
+    orderStatus.className = 'order-status error';
+    orderStatus.textContent = `A rendeléshez pontosan ${boxSize} macaront válassz.`;
+    return;
+  }
 
   const submitButton = orderForm.querySelector('.order-submit');
   const formData = new FormData(orderForm);
@@ -167,11 +261,8 @@ orderForm.addEventListener('submit', async event => {
   }
   const payload = {
     requestId,
-    customer: {
-      name: formData.get('name'),
-      email: formData.get('email'),
-      phone: formData.get('phone')
-    },
+    boxSize,
+    customer: { name: formData.get('name'), email: formData.get('email'), phone: formData.get('phone') },
     delivery: formData.get('delivery'),
     address: formData.get('address'),
     note: formData.get('note'),
@@ -185,16 +276,11 @@ orderForm.addEventListener('submit', async event => {
   orderStatus.textContent = 'A rendelés küldése folyamatban…';
 
   try {
-    const response = await fetch('/.netlify/functions/order', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
+    const response = await fetch('/.netlify/functions/order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || 'A rendelést most nem sikerült elküldeni.');
-
     cart = {};
-    saveCart();
+    saveState();
     renderCart();
     orderForm.reset();
     updateAddressField();
@@ -205,8 +291,8 @@ orderForm.addEventListener('submit', async event => {
     orderStatus.classList.add('error');
     orderStatus.textContent = error.message;
   } finally {
-    submitButton.disabled = false;
     submitButton.classList.remove('loading');
+    submitButton.disabled = cartCount() !== boxSize;
   }
 });
 
@@ -216,7 +302,7 @@ contactForm.addEventListener('submit', event => {
   const data = new FormData(contactForm);
   const subject = `Makaranya — ${data.get('subject')}`;
   const body = `Név: ${data.get('name')}\nE-mail: ${data.get('email')}\n\n${data.get('message')}`;
-  window.location.href = `mailto:hello@makaranya.hu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = `mailto:tiborcz.kiss@gmail.hu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
 
 updateAddressField();

@@ -4,6 +4,7 @@ const PRODUCTS = Object.freeze({
   'lemon-meringue': { name: 'Citromhab', price: 750 },
   'dark-chocolate': { name: 'Étcsokoládé', price: 820 }
 });
+const BOX_SIZES = Object.freeze([6, 12, 18]);
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
@@ -77,6 +78,7 @@ export default async request => {
   const address = clean(body.address, 300);
   const note = clean(body.note, 1000);
   const items = normalizeItems(body.items);
+  const boxSize = Number(body.boxSize);
   const submittedRequestId = clean(body.requestId, 50);
   const requestId = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(submittedRequestId)
     ? submittedRequestId
@@ -89,6 +91,10 @@ export default async request => {
     return json({ error: 'Kérjük, add meg az átvétel módját és szükség esetén a címet.' }, 400);
   }
   if (!items) return json({ error: 'A kosár tartalma hibás vagy üres.' }, 400);
+  const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+  if (!BOX_SIZES.includes(boxSize) || itemCount !== boxSize) {
+    return json({ error: 'A választott 6, 12 vagy 18 darabos dobozt pontosan meg kell tölteni.' }, 400);
+  }
 
   const resendKey = process.env.RESEND_API_KEY;
   if (!resendKey) {
@@ -105,7 +111,7 @@ export default async request => {
   const itemText = items.map(item => `${item.name} × ${item.quantity} — ${money(item.price * item.quantity)}`).join('\n');
 
   const merchantHtml = `<div style="font-family:Arial,sans-serif;max-width:640px;color:#34241f">
-    <h1 style="font-family:Georgia,serif">Új Makaranya rendelés</h1><p><strong>Rendelésszám:</strong> ${orderId}</p>
+    <h1 style="font-family:Georgia,serif">Új Makaranya rendelés</h1><p><strong>Rendelésszám:</strong> ${orderId}<br><strong>Dobozméret:</strong> ${boxSize} darab</p>
     <table style="width:100%;border-collapse:collapse">${itemRows}<tr style="border-top:1px solid #34241f"><td style="padding-top:12px"><strong>Összesen</strong></td><td style="padding-top:12px;text-align:right"><strong>${money(total)}</strong></td></tr></table>
     <h2 style="font-family:Georgia,serif;margin-top:30px">Vásárló</h2><p>${escapeHtml(customer.name)}<br>${escapeHtml(customer.email)}<br>${escapeHtml(customer.phone)}</p>
     <p><strong>Átvétel:</strong> ${deliveryLabel}${address ? `<br><strong>Cím:</strong> ${escapeHtml(address)}` : ''}</p>
@@ -114,7 +120,7 @@ export default async request => {
   </div>`;
   const customerHtml = `<div style="font-family:Arial,sans-serif;max-width:640px;color:#34241f">
     <h1 style="font-family:Georgia,serif">Köszönjük a rendelésed!</h1><p>Kedves ${escapeHtml(customer.name)}!</p>
-    <p>Megkaptuk a <strong>${orderId}</strong> számú rendelési igényedet. Hamarosan jelentkezünk az átvétel és a fizetés részleteivel.</p>
+    <p>Megkaptuk a <strong>${orderId}</strong> számú, ${boxSize} darabos rendelési igényedet. Hamarosan jelentkezünk az átvétel és a fizetés részleteivel.</p>
     <table style="width:100%;border-collapse:collapse;margin:24px 0">${itemRows}<tr style="border-top:1px solid #34241f"><td style="padding-top:12px"><strong>Termékek összesen</strong></td><td style="padding-top:12px;text-align:right"><strong>${money(total)}</strong></td></tr></table>
     <p><strong>Átvétel:</strong> ${deliveryLabel}</p><p style="color:#806b64;font-size:12px">Ez az üzenet a rendelési igény beérkezését igazolja vissza, nem fizetési bizonylat.</p>
   </div>`;
@@ -127,7 +133,7 @@ export default async request => {
         reply_to: customer.email,
         subject: `Új rendelés: ${orderId} — ${money(total)}`,
         html: merchantHtml,
-        text: `Új Makaranya rendelés\n${orderId}\n\n${itemText}\nÖsszesen: ${money(total)}\n\nVásárló: ${customer.name}\nE-mail: ${customer.email}\nTelefon: ${customer.phone}\nÁtvétel: ${deliveryLabel}${address ? `\nCím: ${address}` : ''}${note ? `\nMegjegyzés: ${note}` : ''}`
+        text: `Új Makaranya rendelés\n${orderId}\nDobozméret: ${boxSize} darab\n\n${itemText}\nÖsszesen: ${money(total)}\n\nVásárló: ${customer.name}\nE-mail: ${customer.email}\nTelefon: ${customer.phone}\nÁtvétel: ${deliveryLabel}${address ? `\nCím: ${address}` : ''}${note ? `\nMegjegyzés: ${note}` : ''}`
       }),
       sendEmail(resendKey, `${orderId}-customer`, {
         from: fromEmail,
@@ -135,7 +141,7 @@ export default async request => {
         reply_to: orderEmail,
         subject: `Megkaptuk a rendelésed — ${orderId}`,
         html: customerHtml,
-        text: `Kedves ${customer.name}!\n\nMegkaptuk a ${orderId} számú rendelési igényedet.\n\n${itemText}\nTermékek összesen: ${money(total)}\nÁtvétel: ${deliveryLabel}\n\nHamarosan jelentkezünk a részletekkel.`
+        text: `Kedves ${customer.name}!\n\nMegkaptuk a ${orderId} számú, ${boxSize} darabos rendelési igényedet.\n\n${itemText}\nTermékek összesen: ${money(total)}\nÁtvétel: ${deliveryLabel}\n\nHamarosan jelentkezünk a részletekkel.`
       })
     ]);
     return json({ ok: true, orderId });

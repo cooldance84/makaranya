@@ -3,21 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Makaranya — kézzel készített, különleges macaronok minden alkalomra.">
+  <meta name="description" content="Makaranya — kézzel készített, különleges macaronok és személyre szabható macaronválogatások minden alkalomra.">
   <title>Makaranya — Egy falat boldogság</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=20260719-1">
+  <link rel="stylesheet" href="styles.css?v=20260819-2">
 </head>
 <body>
   <div class="announcement">Ingyenes kiszállítás 12 darabos doboztól <span>✦</span> Minden reggel frissen készítve</div>
   <header class="site-header">
     <a class="logo" href="#top" aria-label="Makaranya főoldal"><span class="logo-mark"><i></i></span>makaranya</a>
     <button class="menu-toggle" aria-label="Menü megnyitása" aria-expanded="false"><span></span><span></span></button>
-    <nav aria-label="Fő navigáció">
-      <a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Elérhetőség</a>
-    </nav>
+    <nav aria-label="Fő navigáció"><a href="#flavours">Ízek</a><a href="#box-builder">Dobozépítő</a><a href="#gallery">Galéria</a><a href="#reviews">Vélemények</a><a href="#contact">Elérhetőség</a></nav>
     <button class="bag" id="cart-open" type="button" aria-label="Kosár megnyitása">Dobozom <span>0</span></button>
   </header>
 
@@ -27,33 +25,39 @@
         <p class="eyebrow">Kézzel készítve, egy csipet varázslattal</p>
         <h1>Egy falat<br><em>boldogság.</em></h1>
         <p class="intro">Roppanós héj, selymesen puha töltelék és felejthetetlen ízek — hogy a hétköznapokból is ünnep legyen.</p>
-        <a class="button" href="#flavours">Fedezd fel az ízeket <span>→</span></a>
-        <div class="note"><span>♡</span> Kis adagokban, szeretettel készítve</div>
+        <a class="button" href="#box-builder">Összeállítom a dobozom <span>→</span></a>
+        <div class="note"><span>♧</span> Kis adagokban, szeretettel készítve</div>
       </div>
-      <div class="hero-art reveal" aria-label="Színes macaronok illusztrációja" role="img">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="sparkle s1">✦</div><div class="sparkle s2">✦</div><div class="sparkle s3">✦</div>
-        <div class="mac-stack">
-          <div class="macaron peach"><b></b><i></i><b></b></div><div class="macaron lemon"><b></b><i></i><b></b></div>
-          <div class="macaron pistachio"><b></b><i></i><b></b></div><div class="macaron berry"><b></b><i></i><b></b></div>
-        </div>
-        <p class="hand-note">tökéletesen<br>tökéletlen <span>↗</span></p>
+      <div class="hero-art hero-art--photo reveal">
+        <img class="hero-photo" src="assets/images/hero-macarons.jpg" alt="Pasztellszínű, kézzel készített macaronok elegáns kompozícióban" width="1400" height="1400" fetchpriority="high">
+        <div class="hero-photo-badge"><strong>4</strong><span>különleges<br>íz</span></div>
+        <p class="hand-note">apró örömök<br>nagy pillanatokhoz <span>↗</span></p>
       </div>
     </section>
 
     <section class="marquee" aria-label="Értékeink"><div>GLUTÉNMENTES <span>✿</span> TERMÉSZETES ALAPANYAGOK <span>✿</span> KÉZZEL KÉSZÍTETT <span>✿</span> GLUTÉNMENTES <span>✿</span> TERMÉSZETES ALAPANYAGOK</div></section>
 
     <section class="flavours" id="flavours">
-      <div class="section-heading reveal">
-        <div><p class="eyebrow">A közönség kedvencei</p><h2>Minden hangulathoz<br><em>egy külön íz.</em></h2></div>
-        <p>A friss, gyümölcsös ízektől a mély, csokoládés élményekig — találd meg a kedvencedet.</p>
+      <div class="section-heading reveal"><div><p class="eyebrow">A közönség kedvencei</p><h2>Minden hangulathoz<br><em>egy külön íz.</em></h2></div><p>A friss, gyümölcsös ízektől a mély, csokoládés élményekig — válassz méretet, majd töltsd meg a dobozodat.</p></div>
+      <div class="box-builder reveal" id="box-builder">
+        <div class="builder-copy"><p class="eyebrow">1. lépés</p><h3>Válaszd ki a doboz méretét</h3><p>A plusz gombokkal annyi macaront válassz, ahány hely van a dobozban. Az ízeket szabadon keverheted.</p></div>
+        <div class="builder-controls">
+          <div class="box-size-options" aria-label="Dobozméret"><button type="button" data-box-size="6" aria-pressed="true"><strong>6</strong><span>darabos</span></button><button type="button" data-box-size="12" aria-pressed="false"><strong>12</strong><span>darabos</span></button><button type="button" data-box-size="18" aria-pressed="false"><strong>18</strong><span>darabos</span></button></div>
+          <div class="box-progress-copy"><span id="box-progress-label">0 / 6 hely</span><strong id="box-progress-hint">Még 6 macaront válassz</strong></div>
+          <div class="box-progress" aria-hidden="true"><i id="box-progress-bar"></i></div><div class="box-slots" id="box-slots" aria-label="A doboz töltöttsége"></div>
+        </div>
       </div>
       <div class="flavour-grid">
-        <article class="flavour-card rose reveal" data-product-id="rose-raspberry"><div class="card-number">01</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Rózsa–málna</h3><p>Virágos, fanyar és álomszerű</p></div><strong>790 Ft</strong></div><button class="add-product" type="button" aria-label="Rózsa–málna hozzáadása">+</button></article>
-        <article class="flavour-card green reveal" data-product-id="salted-pistachio"><div class="card-number">02</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Sós pisztácia</h3><p>Diós, krémes és lágy</p></div><strong>850 Ft</strong></div><button class="add-product" type="button" aria-label="Sós pisztácia hozzáadása">+</button></article>
-        <article class="flavour-card yellow reveal" data-product-id="lemon-meringue"><div class="card-number">03</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Citromhab</h3><p>Napfényes, puha és frissítő</p></div><strong>750 Ft</strong></div><button class="add-product" type="button" aria-label="Citromhab hozzáadása">+</button></article>
-        <article class="flavour-card cocoa reveal" data-product-id="dark-chocolate"><div class="card-number">04</div><div class="mini-mac"><b></b><i></i><b></b></div><div class="product-meta"><div><h3>Étcsokoládé</h3><p>Gazdag, selymes és karakteres</p></div><strong>820 Ft</strong></div><button class="add-product" type="button" aria-label="Étcsokoládé hozzáadása">+</button></article>
+        <article class="flavour-card rose reveal" data-product-id="rose-raspberry"><div class="card-number">01</div><img class="product-photo" src="assets/images/rose-raspberry.jpg" alt="Rózsa–málna macaron" width="900" height="900" loading="lazy"><div class="product-meta"><div><h3>Rózsa–málna</h3><p>Virágos, fanyar és álomszerű</p></div><strong>790 Ft</strong></div><button class="add-product" type="button" aria-label="Rózsa–málna hozzáadása">+</button></article>
+        <article class="flavour-card green reveal" data-product-id="salted-pistachio"><div class="card-number">02</div><img class="product-photo" src="assets/images/salted-pistachio.jpg" alt="Sós pisztácia macaron" width="900" height="900" loading="lazy"><div class="product-meta"><div><h3>Sós pisztácia</h3><p>Diós, krémes és lágy</p></div><strong>850 Ft</strong></div><button class="add-product" type="button" aria-label="Sós pisztácia hozzáadása">+</button></article>
+        <article class="flavour-card yellow reveal" data-product-id="lemon-meringue"><div class="card-number">03</div><img class="product-photo" src="assets/images/lemon-meringue.jpg" alt="Citromhab macaron" width="900" height="900" loading="lazy"><div class="product-meta"><div><h3>Citromhab</h3><p>Napfényes, puha és frissítő</p></div><strong>750 Ft</strong></div><button class="add-product" type="button" aria-label="Citromhab hozzáadása">+</button></article>
+        <article class="flavour-card cocoa reveal" data-product-id="dark-chocolate"><div class="card-number">04</div><img class="product-photo" src="assets/images/dark-chocolate.jpg" alt="Étcsokoládé macaron" width="900" height="900" loading="lazy"><div class="product-meta"><div><h3>Étcsokoládé</h3><p>Gazdag, selymes és karakteres</p></div><strong>820 Ft</strong></div><button class="add-product" type="button" aria-label="Étcsokoládé hozzáadása">+</button></article>
       </div>
+    </section>
+
+    <section class="seasonal" id="seasonal">
+      <div class="seasonal-media reveal"><img src="assets/images/seasonal-gift-box.jpg" alt="Tizenkét darabos szezonális macaron ajándékdoboz" width="1400" height="1400" loading="lazy"><span>Limitált</span></div>
+      <div class="seasonal-copy reveal"><p class="eyebrow">Szezonális válogatás</p><h2>Négy íz.<br><em>Egy kész élmény.</em></h2><p>Nem tudsz választani? A 12 darabos Makaranya-válogatás mind a négy ízből hármat rejt — tökéletes ajándék vagy közös kóstoló.</p><div class="seasonal-meta"><strong>12 darab</strong><span>9 630 Ft</span></div><button class="button dark" id="seasonal-add" type="button">Válogatás a dobozba <span>→</span></button></div>
     </section>
 
     <section class="story" id="story">
@@ -63,76 +67,46 @@
 
     <section class="gallery" id="gallery">
       <div class="gallery-heading reveal"><p class="eyebrow">Pillanatok a műhelyből</p><h2>Színes, édes<br><em>mindennapok.</em></h2><p>Apró részletek, gondos kezek és rengeteg szín — így születnek nálunk a macaronok.</p></div>
-      <div class="gallery-grid">
-        <figure class="gallery-item gallery-tall reveal"><div class="gallery-scene stack-scene"><div class="scene-mac m1"></div><div class="scene-mac m2"></div><div class="scene-mac m3"></div><div class="scene-mac m4"></div></div><figcaption><span>01</span> A napi színpaletta</figcaption></figure>
-        <figure class="gallery-item reveal"><div class="gallery-scene box-scene"><div class="scene-box"><i></i><i></i><i></i><i></i><i></i><i></i></div></div><figcaption><span>02</span> Dobozba zárt öröm</figcaption></figure>
-        <figure class="gallery-item reveal"><div class="gallery-scene piping-scene"><div class="piping-bag"></div><div class="dollop d1"></div><div class="dollop d2"></div><div class="dollop d3"></div></div><figcaption><span>03</span> Minden darab kézzel készül</figcaption></figure>
-        <figure class="gallery-item gallery-wide reveal"><div class="gallery-scene celebration-scene"><div class="plate"><i></i><i></i><i></i><i></i><i></i></div><div class="confetti">✦　·　✿　·　✦</div></div><figcaption><span>04</span> Ünnepekre és csak úgy</figcaption></figure>
+      <div class="photo-gallery">
+        <figure class="gallery-photo gallery-photo--tall reveal"><img src="assets/images/rose-raspberry.jpg" alt="Rózsaszín rózsa–málna macaron közelről" width="900" height="900" loading="lazy"><figcaption><span>01</span> Rózsa és málna</figcaption></figure>
+        <figure class="gallery-photo reveal"><img src="assets/images/salted-pistachio.jpg" alt="Pisztáciás macaron prémium tálalásban" width="900" height="900" loading="lazy"><figcaption><span>02</span> Pisztáciás pillanat</figcaption></figure>
+        <figure class="gallery-photo reveal"><img src="assets/images/lemon-meringue.jpg" alt="Citromos macaron világos háttér előtt" width="900" height="900" loading="lazy"><figcaption><span>03</span> Egy falat napsütés</figcaption></figure>
+        <figure class="gallery-photo gallery-photo--wide reveal"><img src="assets/images/dark-chocolate.jpg" alt="Étcsokoládés macaron elegáns kompozícióban" width="900" height="900" loading="lazy"><figcaption><span>04</span> Csokoládés mélység</figcaption></figure>
       </div>
     </section>
 
-    <section class="gifting" id="gifting">
-      <div class="gift-copy reveal"><p class="eyebrow">A jó dolgok dobozban érkeznek</p><h2>Küldj egy kis<br><em>édességet.</em></h2><p>Állíts össze válogatást születésnapra, köszönetképpen vagy csak úgy. Kérj kézzel írt üzenetet, a többiről mi gondoskodunk.</p><a class="button dark" href="#contact">Ajándékdobozt kérek <span>→</span></a></div>
-      <div class="gift-box reveal" aria-label="Macaronos ajándékdoboz"><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="bow">∞</div><span>MAKARANYA</span></div>
+    <section class="gifting" id="gifting"><div class="gift-copy reveal"><p class="eyebrow">A jó dolgok dobozban érkeznek</p><h2>Küldj egy kis<br><em>édességet.</em></h2><p>Állíts össze válogatást születésnapra, köszönetképpen vagy csak úgy. Kérj kézzel írt üzenetet, a többiről mi gondoskodunk.</p><a class="button dark" href="#box-builder">Ajándékdobozt készítek <span>→</span></a></div><div class="gift-box reveal" aria-label="Macaronos ajándékdoboz"><div class="ribbon-v"></div><div class="ribbon-h"></div><div class="bow">∞</div><span>MAKARANYA</span></div></section>
+
+    <section class="reviews" id="reviews">
+      <div class="reviews-heading reveal"><p class="eyebrow">Édes visszajelzések</p><h2>Szeretet<br><em>első harapásra.</em></h2><p>A lenti szövegek bemutató értékelések; az oldal élesítése előtt valódi vásárlói visszajelzésekre cserélendők.</p></div>
+      <div class="review-grid">
+        <article class="review-card reveal"><div class="review-stars" aria-label="5 csillag">★★★★★</div><blockquote>„Gyönyörű volt a doboz, a pisztáciás pedig pillanatok alatt elfogyott.”</blockquote><p><strong>Anna</strong><span>mintaértékelés</span></p></article>
+        <article class="review-card reveal"><div class="review-stars" aria-label="5 csillag">★★★★★</div><blockquote>„Pont olyan különleges lett az ajándék, amilyennek elképzeltem.”</blockquote><p><strong>Dóra</strong><span>mintaértékelés</span></p></article>
+        <article class="review-card reveal"><div class="review-stars" aria-label="5 csillag">★★★★★</div><blockquote>„Kívül roppan, belül krémes — nálunk a citromos lett a kedvenc.”</blockquote><p><strong>Márk</strong><span>mintaértékelés</span></p></article>
+      </div>
     </section>
 
     <section class="contact" id="contact">
-      <div class="contact-intro reveal"><p class="eyebrow">Találkozzunk vagy írj nekünk</p><h2>Édes terveid<br><em>vannak?</em></h2><p>Rendelés, egyedi válogatás vagy rendezvény? Meséld el, mire gondoltál, és hamarosan válaszolunk.</p>
-        <div class="contact-details">
-          <a href="tel:+36301234567"><small>Telefon</small><strong>+36 30 123 4567</strong></a>
-          <a href="mailto:hello@makaranya.hu"><small>E-mail</small><strong>hello@makaranya.hu</strong></a>
-          <div><small>Műhely</small><strong>Budapest, Édes utca 12.</strong></div>
-          <div><small>Nyitvatartás</small><strong>K–Szo: 10:00–18:00</strong></div>
-        </div>
-      </div>
-      <form class="contact-form reveal" id="contact-form">
-        <label>Név<input type="text" name="name" placeholder="Hogyan szólíthatunk?" required></label>
-        <label>E-mail<input type="email" name="email" placeholder="nev@email.hu" required></label>
-        <label>Miben segíthetünk?<select name="subject"><option>Macaron rendelés</option><option>Ajándékdoboz</option><option>Rendezvény</option><option>Egyéb kérdés</option></select></label>
-        <label>Üzenet<textarea name="message" rows="4" placeholder="Írd meg az elképzelésed..." required></textarea></label>
-        <button class="button dark" type="submit">Üzenet küldése <span>→</span></button>
-        <p class="form-note">Az űrlap megnyitja az alapértelmezett levelezőprogramodat.</p>
-      </form>
+      <div class="contact-intro reveal"><p class="eyebrow">Írj nekünk</p><h2>Édes terveid<br><em>vannak?</em></h2><p>Rendelés, egyedi válogatás vagy rendezvény? Meséld el, mire gondoltál, és hamarosan válaszolunk.</p><div class="contact-details"><a href="mailto:tiborcz.kiss@gmail.hu"><small>E-mail</small><strong>tiborcz.kiss@gmail.hu</strong></a><div><small>Átvétel</small><strong>Budapest — előzetes egyeztetéssel</strong></div><div><small>Válaszidő</small><strong>Általában 1 munkanapon belül</strong></div></div></div>
+      <form class="contact-form reveal" id="contact-form"><label>Név<input type="text" name="name" placeholder="Hogyan szólíthatunk?" required></label><label>E-mail<input type="email" name="email" placeholder="nev@email.hu" required></label><label>Miben segíthetünk?<select name="subject"><option>Macaron rendelés</option><option>Ajándékdoboz</option><option>Rendezvény</option><option>Egyéb kérdés</option></select></label><label>Üzenet<textarea name="message" rows="4" placeholder="Írd meg az elképzelésed..." required></textarea></label><button class="button dark" type="submit">Üzenet küldése <span>→</span></button><p class="form-note">Az űrlap megnyitja az alapértelmezett levelezőprogramodat.</p></form>
     </section>
   </main>
 
-  <footer>
-    <a class="logo light" href="#top"><span class="logo-mark"><i></i></span>makaranya</a><p>Kis finomság. Nagy élmény.</p>
-    <div><a href="#flavours">Ízek</a><a href="#story">Rólunk</a><a href="#gallery">Galéria</a><a href="#contact">Kapcsolat</a></div>
-    <small>© 2026 Makaranya. Szeretettel készítve.</small>
-  </footer>
+  <footer><a class="logo light" href="#top"><span class="logo-mark"><i></i></span>makaranya</a><p>Kis finomság. Nagy élmény.</p><div><a href="#flavours">Ízek</a><a href="#box-builder">Dobozépítő</a><a href="#gallery">Galéria</a><a href="#reviews">Vélemények</a><a href="#contact">Kapcsolat</a></div><small>© 2026 Makaranya. Szeretettel készítve.</small></footer>
+
   <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
   <aside class="cart-drawer" id="cart-drawer" aria-hidden="true" aria-labelledby="cart-title">
-    <div class="cart-head">
-      <div><p class="eyebrow">Saját válogatásod</p><h2 id="cart-title">A dobozod</h2></div>
-      <button class="cart-close" type="button" aria-label="Kosár bezárása">×</button>
-    </div>
+    <div class="cart-head"><div><p class="eyebrow">Saját válogatásod</p><h2 id="cart-title">A dobozod</h2></div><button class="cart-close" type="button" aria-label="Kosár bezárása">×</button></div>
     <div class="cart-content">
+      <div class="cart-box-config"><div><span>Dobozméret</span><strong id="cart-capacity">0 / 6 darab</strong></div><div class="box-size-options compact" aria-label="Dobozméret a kosárban"><button type="button" data-box-size="6" aria-pressed="true"><strong>6</strong></button><button type="button" data-box-size="12" aria-pressed="false"><strong>12</strong></button><button type="button" data-box-size="18" aria-pressed="false"><strong>18</strong></button></div></div>
       <div class="cart-items" id="cart-items"></div>
-      <div class="cart-empty" id="cart-empty"><span>♡</span><strong>A dobozod még üres.</strong><p>Válassz néhány kedvenc ízt!</p><button type="button" id="cart-shop">Ízek megtekintése</button></div>
-      <div class="cart-summary" id="cart-summary">
-        <div><span>Macaronok</span><strong id="cart-subtotal">0 Ft</strong></div>
-        <small>A végleges átvételi vagy szállítási díjat e-mailben egyeztetjük.</small>
-      </div>
-      <form class="order-form" id="order-form">
-        <h3>Rendelési adatok</h3>
-        <label class="honeypot" aria-hidden="true">Weboldal<input name="website" type="text" tabindex="-1" autocomplete="off"></label>
-        <div class="order-fields two-columns">
-          <label>Név<input name="name" type="text" autocomplete="name" required></label>
-          <label>Telefonszám<input name="phone" type="tel" autocomplete="tel" required></label>
-        </div>
-        <label>E-mail<input name="email" type="email" autocomplete="email" required></label>
-        <label>Átvétel<select name="delivery" id="delivery-select"><option value="pickup">Személyes átvétel</option><option value="delivery">Kiszállítás — egyeztetés alapján</option></select></label>
-        <label class="address-field" id="address-field">Szállítási cím<input name="address" type="text" autocomplete="street-address"></label>
-        <label>Megjegyzés<textarea name="note" rows="3" maxlength="1000" placeholder="Dátum, különleges kérés, allergia..."></textarea></label>
-        <label class="consent"><input name="consent" type="checkbox" required><span>Elfogadom, hogy a megadott adataimat a rendelés egyeztetéséhez kezeljék.</span></label>
-        <button class="button dark order-submit" type="submit">Rendelés elküldése <span>→</span></button>
-        <p class="order-status" id="order-status" role="status"></p>
-      </form>
+      <div class="cart-empty" id="cart-empty"><span>♧</span><strong>A dobozod még üres.</strong><p>Válassz néhány kedvenc ízt!</p><button type="button" id="cart-shop">Ízek megtekintése</button></div>
+      <div class="cart-summary" id="cart-summary"><div><span>Macaronok</span><strong id="cart-subtotal">0 Ft</strong></div><small id="cart-summary-note">A rendeléshez töltsd meg a kiválasztott dobozt.</small></div>
+      <form class="order-form" id="order-form"><h3>Rendelési adatok</h3><label class="honeypot" aria-hidden="true">Weboldal<input name="website" type="text" tabindex="-1" autocomplete="off"></label><div class="order-fields two-columns"><label>Név<input name="name" type="text" autocomplete="name" required></label><label>Telefonszám<input name="phone" type="tel" autocomplete="tel" required></label></div><label>E-mail<input name="email" type="email" autocomplete="email" required></label><label>Átvétel<select name="delivery" id="delivery-select"><option value="pickup">Személyes átvétel</option><option value="delivery">Kiszállítás — egyeztetés alapján</option></select></label><label class="address-field" id="address-field">Szállítási cím<input name="address" type="text" autocomplete="street-address"></label><label>Megjegyzés<textarea name="note" rows="3" maxlength="1000" placeholder="Dátum, különleges kérés, allergia..."></textarea></label><label class="consent"><input name="consent" type="checkbox" required><span>Elfogadom, hogy a megadott adataimat a rendelés egyeztetéséhez kezeljék.</span></label><button class="button dark order-submit" type="submit">Rendelés elküldése <span>→</span></button><p class="order-status" id="order-status" role="status"></p></form>
       <div class="order-success" id="order-success" hidden><span>✓</span><h3>Köszönjük a rendelést!</h3><p>A visszaigazolást elküldtük az e-mail-címedre. Hamarosan jelentkezünk az átvétel részleteivel.</p><button type="button" id="success-close">Rendben</button></div>
     </div>
   </aside>
-  <div class="toast" role="status">Hozzáadtuk a dobozodhoz ♡</div>
-  <script src="script.js?v=20260719-1"></script>
+  <div class="toast" role="status">Hozzáadtuk a dobozodhoz ♧</div>
+  <script src="script.js?v=20260819-2"></script>
 </body>
 </html>
