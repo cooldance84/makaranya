@@ -48,7 +48,7 @@ Az AI-val készített, webre optimalizált képek az `assets/images/` könyvtár
 ```text
 RESEND_API_KEY=re_xxxxxxxxx
 RESEND_FROM=Makaranya <rendeles@sajat-domain.hu>
-ORDER_EMAIL=tiborcz.kiss@gmail.hu
+ORDER_EMAIL=proba_tesztmail@gmail.com
 ```
 
 5. A Resendben ellenőrizd a küldő domaint, majd indíts új Netlify deployt.

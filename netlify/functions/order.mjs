@@ -102,7 +102,7 @@ export default async request => {
     return json({ error: 'Az e-mail-küldés még nincs konfigurálva.' }, 503);
   }
 
-  const orderEmail = process.env.ORDER_EMAIL || 'tiborcz.kiss@gmail.hu';
+  const orderEmail = process.env.ORDER_EMAIL || 'proba_tesztmail@gmail.com';
   const fromEmail = process.env.RESEND_FROM || 'Makaranya <onboarding@resend.dev>';
   const orderId = `MAK-${requestId.replaceAll('-', '').slice(0, 12).toUpperCase()}`;
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);

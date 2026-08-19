@@ -355,7 +355,7 @@ contactForm.addEventListener('submit', event => {
   const data = new FormData(contactForm);
   const subject = `Makaranya — ${data.get('subject')}`;
   const body = `Név: ${data.get('name')}\nE-mail: ${data.get('email')}\n\n${data.get('message')}`;
-  window.location.href = `mailto:tiborcz.kiss@gmail.hu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = `mailto:proba_tesztmail@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 });
 
 updateAddressField();
